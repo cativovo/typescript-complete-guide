@@ -1,11 +1,11 @@
 import { company, address } from 'faker';
 
 export class Company {
-  name: string;
-  catchPhrase: string;
-  location: {
+  public name: string;
+  public catchPhrase: string;
+  public location: {
     lat: number;
-    long: number;
+    lng: number;
   };
 
   constructor() {
@@ -13,7 +13,7 @@ export class Company {
     this.catchPhrase = company.catchPhrase();
     this.location = {
       lat: parseFloat(address.latitude()),
-      long: parseFloat(address.longitude()),
+      lng: parseFloat(address.longitude()),
     };
   }
 }
