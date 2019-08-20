@@ -1,21 +1,19 @@
-interface Sortable {
-  length: number;
-  compare(leftIndex: number, rightIndex: number): boolean;
-  swap(leftIndex: number, rightIndex: number): void;
-}
-
-export class Sorter {
-  // dapat yung collection ay nasasatisfy yung Sortable interface
-  constructor(public collection: Sortable) {}
+// https://www.typescriptlang.org/docs/handbook/classes.html#abstract-classes
+export abstract class Sorter {
+  // Kelangan iimplement ng mga children ni Sorter
+  //  yung mga props at methods na may 'abstract' keyword
+  abstract length: number;
+  abstract compare(leftIndex: number, rightIndex: number): boolean;
+  abstract swap(leftIndex: number, rightIndex: number): void;
 
   sort(): void {
-    const { length }: { length: number } = this.collection;
+    const { length }: { length: number } = this;
 
     // Bubble Sort
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length - i - 1; j++) {
-        if (this.collection.compare(j, j + 1)) {
-          this.collection.swap(j, j + 1);
+        if (this.compare(j, j + 1)) {
+          this.swap(j, j + 1);
         }
       }
     }
