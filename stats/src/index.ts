@@ -1,10 +1,7 @@
 import path from 'path';
-import { CsvFileReader } from './CsvFileReader';
+import { MatchAnalyser } from './MatchAnalyser';
 
 const filePath = path.join(__dirname, '..', 'csv', '3.1 football.csv.csv');
 
-const csvFileReader = new CsvFileReader(filePath);
-csvFileReader.read();
-
-const matches = csvFileReader.data;
-console.log(matches);
+const matchAnalyser = new MatchAnalyser(filePath);
+console.log(matchAnalyser.getTotalWinCount('Man United'));
