@@ -1,2 +1,13 @@
 "use strict";
-console.log('tes new  nice ft');
+Object.defineProperty(exports, "__esModule", { value: true });
+var Sorter_1 = require("./Sorter");
+var NumbersCollection_1 = require("./NumbersCollection");
+var CharactersCollection_1 = require("./CharactersCollection");
+var numberCollection = new NumbersCollection_1.NumbersCollection([10, 3, -5, 0]);
+var numberSorter = new Sorter_1.Sorter(numberCollection);
+numberSorter.sort();
+var charactersCollection = new CharactersCollection_1.CharactersCollection('BaBaC');
+var characterSorter = new Sorter_1.Sorter(charactersCollection);
+characterSorter.sort();
+console.log(numberCollection.data);
+console.log(charactersCollection.data);
