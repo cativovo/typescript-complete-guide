@@ -12,38 +12,29 @@ interface MatchData {
   referee: string;
 }
 
-export class MatchAnalyser extends CsvFileReader {
+export class MatchReader extends CsvFileReader<MatchData> {
   // Yung mga private properties naguumpisa sa '_' yung convention
-  private _matches: MatchData[] = [];
 
-  constructor(filename: string) {
-    super(filename);
+  protected mapRow(row: string[]): MatchData {
+    const [date, homeTeam, awayTeam, homeGoals, awayGoals, winner, referee] = row;
 
-    this.read();
-
-    this._matches = this.data.map(
-      (row: string[]): MatchData => {
-        const [date, homeTeam, awayTeam, homeGoals, awayGoals, winner, referee] = row;
-
-        return {
-          date: dateStringToDate(date),
-          homeTeam,
-          awayTeam,
-          homeGoals: parseInt(homeGoals, 10),
-          awayGoals: parseInt(awayGoals, 10),
-          winner: winner as MatchResult,
-          referee,
-        };
-      },
-    );
+    return {
+      date: dateStringToDate(date),
+      homeTeam,
+      awayTeam,
+      homeGoals: parseInt(homeGoals, 10),
+      awayGoals: parseInt(awayGoals, 10),
+      winner: winner as MatchResult,
+      referee,
+    };
   }
 
   get matches(): MatchData[] {
-    return this._matches;
+    return this.data;
   }
 
   getTotalWinCount(team: string): number {
-    return this._matches.reduce((totalWins: number, match: MatchData): number => {
+    return this.data.reduce((totalWins: number, match: MatchData): number => {
       const isTeamHomeWinner = match.homeTeam === team && match.winner === MatchResult.HomeWin;
       const isTeamAwayWinner = match.awayTeam === team && match.winner === MatchResult.AwayWin;
       const didWin = isTeamHomeWinner || isTeamAwayWinner;
