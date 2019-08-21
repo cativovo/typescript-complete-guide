@@ -19,6 +19,6 @@ export class WinsAnalysis implements Analyzer<MatchData> {
       return didWin ? totalWins + 1 : totalWins;
     }, 0);
 
-    return `${this._team} has ${wins} win${wins > 1 || wins < 1 ? 's' : ''}`;
+    return `${this._team} won ${wins} game${wins > 1 || wins < 1 ? 's' : ''}`;
   }
 }
