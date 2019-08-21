@@ -5,8 +5,8 @@ export class Summary<T> {
   constructor(private analyzer: Analyzer<T>, private outputTarget: OutputTarget) {}
 
   buildAndPrintReport(data: T[]): void {
-    const report = this.analyzer.run(data);
+    const output = this.analyzer.run(data);
 
-    this.outputTarget.print(report);
+    this.outputTarget.print(output);
   }
 }
