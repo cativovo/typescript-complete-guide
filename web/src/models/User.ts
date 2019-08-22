@@ -1,12 +1,14 @@
+import axios, { AxiosResponse } from 'axios';
+import { config } from '../config';
+
 interface UserProps {
+  id?: number;
   name?: string;
   age?: number;
 }
 
-type Callback = () => void;
-
 export class User {
-  private _events: { [key: string]: Callback[] } = {};
+  private USERS_URL = `${config.BACKEND_URL}/users`;
 
   constructor(private _data: UserProps) {}
 
@@ -18,17 +20,21 @@ export class User {
     Object.assign(this._data, updates);
   }
 
-  on(eventName: string, callback: Callback): void {
-    const handlers = this._events[eventName] || [];
-    handlers.push(callback);
-    this._events[eventName] = handlers;
+  fetch(): void {
+    axios
+      .get(`${this.USERS_URL}/${this.get('id')}`)
+      .then((res: AxiosResponse) => this.set(res.data));
   }
 
-  trigger(eventName: string): void {
-    const handlers = this._events[eventName];
+  save(): void {
+    const id = this.get('id');
+    const { _data } = this;
 
-    if (!handlers || handlers.length === 0) return;
+    if (id) {
+      axios.put(`${this.USERS_URL}/${id}`, _data);
+      return;
+    }
 
-    handlers.forEach((callback: Callback): void => callback());
+    axios.post(this.USERS_URL, _data);
   }
 }
