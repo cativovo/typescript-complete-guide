@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export class CsvReader {
-  private _data: string[][] = [];
+  private _data: string[][] = []; // initialize siya pag di gagamitin sa constructor
 
   constructor(private _filename: string) {}
 
