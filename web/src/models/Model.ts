@@ -33,12 +33,12 @@ export class Model<T extends HasId> {
   readonly on = this.events.on;
   readonly trigger = this.events.trigger;
 
-  set(updates: T): void {
+  set = (updates: T): void => {
     this.attributes.set(updates);
     this.events.trigger('change');
-  }
+  };
 
-  fetch(): void {
+  fetch = (): void => {
     const id = this.attributes.get('id');
 
     if (!id) {
@@ -50,12 +50,12 @@ export class Model<T extends HasId> {
         this.set(res.data); // para matrigger yung 'change' event
       },
     );
-  }
+  };
 
-  save(): void {
+  save = (): void => {
     this.sync
       .save(this.attributes.data)
       .then((): void => this.events.trigger('save'))
       .catch((): void => this.events.trigger('error'));
-  }
+  };
 }
