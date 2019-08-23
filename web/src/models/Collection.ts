@@ -9,14 +9,14 @@ export class Collection<T, K> {
   constructor(public rootUrl: string, public deserialize: (data: K) => T) {}
 
   get on() {
-    return this.events.on;
+    return this.events.on.bind(this.events);
   }
 
   get trigger() {
-    return this.events.trigger;
+    return this.events.trigger.bind(this.events);
   }
 
-  fetch = (): void => {
+  fetch(): void {
     axios.get(this.rootUrl).then(
       (res: AxiosResponse): void => {
         const models = res.data.map(this.deserialize);
@@ -24,5 +24,5 @@ export class Collection<T, K> {
         this.events.trigger('change');
       },
     );
-  };
+  }
 }

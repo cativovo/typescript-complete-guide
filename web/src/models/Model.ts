@@ -29,16 +29,17 @@ export class Model<T extends HasId> {
   // gagana lang to kapag na initialize yung mga class sa constructor as parameters
   // gayahin yung constructor neto pag balak gamitan ng ganitong syntax
   // nilagay yung readonly para magi siyang parang getter
-  readonly get = this.attributes.get;
-  readonly on = this.events.on;
-  readonly trigger = this.events.trigger;
+  // property na nagrereturn ng method
+  readonly get = this.attributes.get.bind(this.attributes);
+  readonly on = this.events.on.bind(this.events);
+  readonly trigger = this.events.trigger.bind(this.events);
 
-  set = (updates: T): void => {
+  set(updates: T): void {
     this.attributes.set(updates);
     this.events.trigger('change');
-  };
+  }
 
-  fetch = (): void => {
+  fetch(): void {
     const id = this.attributes.get('id');
 
     if (!id) {
@@ -50,12 +51,12 @@ export class Model<T extends HasId> {
         this.set(res.data); // para matrigger yung 'change' event
       },
     );
-  };
+  }
 
-  save = (): void => {
+  save(): void {
     this.sync
       .save(this.attributes.data)
       .then((): void => this.events.trigger('save'))
       .catch((): void => this.events.trigger('error'));
-  };
+  }
 }

@@ -11,9 +11,11 @@ export class Attributes<T> {
   //   yung pwedeng value lang nung key ay mga key ng T
   //   yung irereturn niya ay yung type based sa key ng T,
   //   for example, UserProps['id']: number; UserProps['name']:string; UserProps['age']:number;
-  get = <K extends keyof T>(key: K): T[K] => this._data[key];
+  get<K extends keyof T>(key: K): T[K] {
+    return this._data[key];
+  }
 
-  set = (updates: T): void => {
+  set(updates: T): void {
     this._data = { ...this._data, ...updates };
-  };
+  }
 }
