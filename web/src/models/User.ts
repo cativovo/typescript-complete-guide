@@ -14,5 +14,5 @@ const USERS_URL = `${config.BACKEND_URL}/users`;
 
 export class User extends Model<UserProps> {
   // eslint-disable-next-line max-len
-  static buidUser = (data: UserProps): User => new User(new Attributes<UserProps>(data), new Eventing(), new ApiSync<UserProps>(USERS_URL));
+  static buildUser = (data: UserProps): User => new User(new Attributes<UserProps>(data), new Eventing(), new ApiSync<UserProps>(USERS_URL));
 }

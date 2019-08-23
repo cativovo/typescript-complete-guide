@@ -1,3 +1,9 @@
 import { User } from './models/User';
 
-const user = new User({ name: 'budoy', age: 0 });
+const user = User.buildUser({ id: 1 });
+
+user.on('change', (): void => console.log(user.get('name')));
+
+user.fetch();
+
+user.get = (test: string): void => console.log(test);

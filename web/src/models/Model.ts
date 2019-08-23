@@ -26,17 +26,12 @@ export class Model<T extends HasId> {
     private sync: Sync<T>,
   ) {}
 
-  get get() {
-    return this.attributes.get;
-  }
-
-  get on() {
-    return this.events.on;
-  }
-
-  get trigger() {
-    return this.events.trigger;
-  }
+  // gagana lang to kapag na initialize yung mga class sa constructor as parameters
+  // gayahin yung constructor neto pag balak gamitan ng ganitong syntax
+  // nilagay yung readonly para magi siyang parang getter
+  readonly get = this.attributes.get;
+  readonly on = this.events.on;
+  readonly trigger = this.events.trigger;
 
   set(updates: T): void {
     this.attributes.set(updates);
