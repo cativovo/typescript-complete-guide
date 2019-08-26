@@ -1,34 +1,15 @@
-import { User } from '../models/User';
+import { View } from './View';
+import { User, UserProps } from '../models/User';
 
-export class UserForm {
-  constructor(public parent: HTMLElement, public model: User) {
-    this.bindModel();
-  }
-
-  private bindModel(): void {
-    this.model.on('change', (): void => {
-      this.render();
-    });
-  }
-
-  private eventsMap(): { [key: string]: () => void } {
+export class UserForm extends View<User, UserProps> {
+  protected eventsMap(): { [key: string]: () => void } {
     return {
       'click:.set-age': this.onSetAgeClick.bind(this),
       'click:.set-name': this.onSetNameClick.bind(this),
     };
   }
 
-  private onSetAgeClick(): void {
-    this.model.setRandomAge();
-  }
-
-  private onSetNameClick(): void {
-    const input = this.parent.querySelector('input');
-
-    if (input) this.model.set({ name: input.value });
-  }
-
-  private template(): string {
+  protected template(): string {
     const name = this.model.get('name');
     const age = this.model.get('age');
     return `
@@ -43,26 +24,13 @@ export class UserForm {
     `;
   }
 
-  bindEvents(fragment: DocumentFragment): void {
-    const eventsMap = this.eventsMap();
-    const eventKeys = Object.keys(eventsMap);
-
-    eventKeys.forEach((eventKey: string): void => {
-      const [eventName, selector] = eventKey.split(':');
-      const htmlElements = fragment.querySelectorAll(selector);
-
-      htmlElements.forEach((htmlElement: Element): void => {
-        htmlElement.addEventListener(eventName, eventsMap[eventKey]);
-      });
-    });
+  private onSetAgeClick(): void {
+    this.model.setRandomAge();
   }
 
-  render(): void {
-    this.parent.innerHTML = '';
-    const templateElement = document.createElement('template');
-    templateElement.innerHTML = this.template();
+  private onSetNameClick(): void {
+    const input = this.parent.querySelector('input');
 
-    this.bindEvents(templateElement.content);
-    this.parent.append(templateElement.content);
+    if (input) this.model.set({ name: input.value });
   }
 }

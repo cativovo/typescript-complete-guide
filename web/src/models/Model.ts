@@ -46,11 +46,9 @@ export class Model<T extends HasId> {
       throw new Error('Cannot fetch without an id');
     }
 
-    this.sync.fetch(id as number).then(
-      (res: AxiosResponse): void => {
-        this.set(res.data); // para matrigger yung 'change' event
-      },
-    );
+    this.sync.fetch(id as number).then((res: AxiosResponse): void => {
+      this.set(res.data); // para matrigger yung 'change' event
+    });
   }
 
   save(): void {
