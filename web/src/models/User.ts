@@ -25,6 +25,11 @@ class User extends Model<UserProps> {
   static buildUserCollection(): Collection<User, UserProps> {
     return new Collection<User, UserProps>(USERS_URL, User.buildUser);
   }
+
+  setRandomAge(): void {
+    const age = Math.floor(Math.random() * 100 + 1);
+    this.set({ age });
+  }
 }
 
 // eslint-disable-next-line no-undef
