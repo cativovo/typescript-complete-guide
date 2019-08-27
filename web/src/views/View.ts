@@ -30,6 +30,7 @@ export abstract class View<T extends Model<K>, K> {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected onRender(): void {}
 
   private bindModel(): void {

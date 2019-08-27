@@ -1,13 +1,18 @@
-import { User } from './models/User';
-import { UserEdit } from './views/UserEdit';
+import { Collection } from './models/Collection';
+import { UserProps, User } from './models/User';
+import { UserList } from './views/UserList';
 
-const rootDiv = document.getElementById('root'); // try mo tanggalin yung assertion
-const user = User.buildUser({ name: 'mark', age: 20 });
+const users = new Collection(
+  'http://localhost:3000/users',
+  (json: UserProps): User => User.buildUser(json),
+);
 
-if (rootDiv) {
-  const userEdit = new UserEdit(rootDiv, user);
-  userEdit.render();
-  console.log(userEdit);
-} else {
-  throw new Error('Root element not found');
-}
+users.on('change', (): void => {
+  const root = document.getElementById('root');
+
+  if (root) {
+    new UserList(root, users).render();
+  }
+});
+
+users.fetch();
