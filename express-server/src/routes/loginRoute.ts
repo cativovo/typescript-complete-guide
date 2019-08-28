@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { auth } from '../middleware/auth';
 
 interface RequestWithUserCredentials extends Request {
   body: {
@@ -7,9 +8,9 @@ interface RequestWithUserCredentials extends Request {
   };
 }
 
-const loginRouter = Router();
+const authRouter = Router();
 
-loginRouter.get('/login', (req: Request, res: Response): void => {
+authRouter.get('/login', (req: Request, res: Response): void => {
   res.send(`
           <form method="POST">
             <div> 
@@ -25,8 +26,8 @@ loginRouter.get('/login', (req: Request, res: Response): void => {
       `);
 });
 
-loginRouter.post('/login', (req: RequestWithUserCredentials, res: Response): void => {
-  const { email, password, } = req.body;
+authRouter.post('/login', (req: RequestWithUserCredentials, res: Response): void => {
+  const { email, password } = req.body;
 
   const hardCodedEmail = 'test@test.com';
   const hardCodedPassword = '1234';
@@ -40,4 +41,12 @@ loginRouter.post('/login', (req: RequestWithUserCredentials, res: Response): voi
   res.status(400).send('Invalid email or password');
 });
 
-export { loginRouter };
+authRouter.get('/logout', auth, (req: Request, res: Response): void => {
+  if (req.session && req.session.isLoggedIn) {
+    req.session = undefined;
+  }
+
+  res.redirect('/');
+});
+
+export { authRouter };
