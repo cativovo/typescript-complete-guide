@@ -1,13 +1,10 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { loginRouter } from './routes/loginRoute';
 
 const app = express();
 
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req: Request, res: Response): void => {
-  res.send(`
-        <h1>Test</h1>
-    `);
-});
+app.use(loginRouter);
 
 export { app };
