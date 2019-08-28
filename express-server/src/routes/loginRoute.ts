@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 
-interface RequestWithBody extends Request {
+interface RequestWithUserCredentials extends Request {
   body: {
     email: string | undefined;
     password: string | undefined;
@@ -25,14 +25,14 @@ loginRouter.get('/login', (req: Request, res: Response): void => {
       `);
 });
 
-loginRouter.post('/login', (req: RequestWithBody, res: Response): void => {
-  const { email, password } = req.body;
+loginRouter.post('/login', (req: RequestWithUserCredentials, res: Response): void => {
+  const { email, password, } = req.body;
 
-  const hardCodedEmail = 'test@email.com';
+  const hardCodedEmail = 'test@test.com';
   const hardCodedPassword = '1234';
 
   if (email && password && email === hardCodedEmail && password === hardCodedPassword) {
-    res.send('Logged in');
+    req.session = { isLoggedIn: true };
     res.redirect('/');
     return;
   }
