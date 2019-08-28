@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { get } from './decorators/routes';
-import { controller } from './decorators/controller';
+import { get, controller } from './decorators';
 
 @controller('/auth')
-export class LoginController {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class LoginController {
   @get('/login')
   getLogin(req: Request, res: Response): void {
     res.send(`
