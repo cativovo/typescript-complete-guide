@@ -12,7 +12,8 @@ export function controller(routePrefix: string): (target: Function) => void {
 
     for (const propertyKey in targetPrototype) {
       const routeHandler = targetPrototype[propertyKey];
-      const path = Reflect.getMetadata('path', targetPrototype, propertyKey);
+      const path: string = Reflect.getMetadata('path', targetPrototype, propertyKey);
+      const httpMethod: string = Reflect.getMetadata('httpMethod', targetPrototype, propertyKey);
 
       if (path) {
         router.get(`${routePrefix}${path}`, routeHandler);

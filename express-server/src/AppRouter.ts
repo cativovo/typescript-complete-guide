@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+// Eto yung Singleton
+// Para sure na isang instance lang ng Router yung ginagamit
 export class AppRouter {
   private static instance: Router;
 
