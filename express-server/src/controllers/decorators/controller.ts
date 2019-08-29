@@ -3,6 +3,7 @@
 import 'reflect-metadata';
 import { AppRouter } from '../../AppRouter';
 import { Methods } from './Methods';
+import { MetadataKeys } from './MetadataKeys';
 
 // Function kasi yung constructor, check yung ../../features/metadata.ts
 // propertyKey = method names ng target,(Object.keys(targetPrototype))
@@ -18,8 +19,12 @@ export function controller(routePrefix: string): (target: Function) => void {
 
     for (const propertyKey in targetPrototype) {
       const routeHandler = targetPrototype[propertyKey];
-      const path: string = Reflect.getMetadata('path', targetPrototype, propertyKey);
-      const httpMethod: Methods = Reflect.getMetadata('httpMethod', targetPrototype, propertyKey);
+      const path: string = Reflect.getMetadata(MetadataKeys.Path, targetPrototype, propertyKey);
+      const httpMethod: Methods = Reflect.getMetadata(
+        MetadataKeys.HttpMethod,
+        targetPrototype,
+        propertyKey,
+      );
 
       if (path) {
         router[httpMethod](`${routePrefix}${path}`, routeHandler);
