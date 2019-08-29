@@ -20,10 +20,8 @@ const bodyValidators = (keys: string[]): RequestHandler => (
 
   for (const key of keys) {
     if (!req.body[key]) {
-      if (!req.body) {
-        res.status(422).send('Invalid request');
-        return;
-      }
+      res.status(422).send(`Missing property '${key}'`);
+      return;
     }
   }
 
