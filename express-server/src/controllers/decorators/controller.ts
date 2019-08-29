@@ -25,9 +25,10 @@ export function controller(routePrefix: string): (target: Function) => void {
         targetPrototype,
         propertyKey,
       );
+      const middlewares = Reflect.getMetadata(MetadataKeys.Middleware, target.prototype, propertyKey) || [];
 
       if (path) {
-        router[httpMethod](`${routePrefix}${path}`, routeHandler);
+        router[httpMethod](`${routePrefix}${path}`, ...middlewares, routeHandler);
       }
     }
   };

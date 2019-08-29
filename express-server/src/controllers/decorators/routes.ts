@@ -4,9 +4,9 @@ import { Methods } from './Methods';
 import { MetadataKeys } from './MetadataKeys';
 
 const routeBinder = (httpMethod: string) => function factoryDecorator(path: string) {
-  return function attachPathMetadata(target: any, propertyKey: string): void {
-    Reflect.defineMetadata(MetadataKeys.path, path, target, propertyKey);
-    Reflect.defineMetadata(MetadataKeys.httpMethod, httpMethod, target, propertyKey);
+  return function attachMetadata(target: any, propertyKey: string): void {
+    Reflect.defineMetadata(MetadataKeys.Path, path, target, propertyKey);
+    Reflect.defineMetadata(MetadataKeys.HttpMethod, httpMethod, target, propertyKey);
   };
 };
 
